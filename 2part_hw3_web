@@ -1,0 +1,25 @@
+import multiprocessing
+import time
+
+def factorize_worker(num):
+    factors = []
+    for i in range(1, num + 1):
+        if num % i == 0:
+            factors.append(i)
+    return factors
+
+def factorize(numbers):
+    with multiprocessing.Pool() as pool:
+        results = pool.map(factorize_worker, numbers)
+    return results
+
+if __name__ == "__main__":
+    numbers = [128, 256, 512, 1024, 2048]
+    
+    start_time = time.time()
+    factorize_result = factorize(numbers)
+    end_time = time.time()
+    
+    print("Parallel version:")
+    print("Result:", factorize_result)
+    print("Time taken:", end_time - start_time, "seconds")
